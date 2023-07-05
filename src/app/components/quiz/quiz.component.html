@@ -1,0 +1,74 @@
+<h2>Create quiz</h2>
+<form
+  [formGroup]="quizForm"
+  (ngSubmit)="onSubmitCreateQuiz()"
+  class="row align-items-center justify-content-center g-0"
+>
+  <div class="col-auto">
+    <select id="categorySelect" formControlName="category" class="form-select">
+      <option [ngValue]="null">Select a category</option>
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <select
+      id="difficultySelect"
+      formControlName="difficulty"
+      class="form-select"
+    >
+      <option [ngValue]="null">Select difficulty</option>
+      <option *ngFor="let difficulty of difficulties" [value]="difficulty.id">
+        {{ difficulty.name }}
+      </option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <button
+      class="btn btn-primary"
+      id="createBtn"
+      type="submit"
+      [disabled]="!quizForm.valid"
+    >
+      Create
+    </button>
+  </div>
+</form>
+<ng-container *ngIf="questionsResult?.length > 0">
+  <form [formGroup]="answersForm" (ngSubmit)="onSubmitAnswers()">
+    <div *ngFor="let questionResult of questionsResult">
+      <h3 [innerHTML]="questionResult.question"></h3>
+      <!--<ol><li *ngFor="let answer of quiz.incorrect_answers">{{ answer }}</li></ol>-->
+      <!--<ol><li *ngFor="let answer of quiz.incorrect_answers" [innerHTML]="answer"></li></ol>-->
+      <div class="answers-container">
+        <ng-container *ngFor="let answer of questionResult.all_answers">
+          <input
+            formControlName="{{ questionResult.question }}"
+            type="radio"
+            class="btn-check"
+            name="{{ questionResult.question }}"
+            id="{{ questionResult.question }}-{{ answer }}"
+            value="{{ answer }}"
+            autocomplete="off"
+          />
+          <label
+            class="btn btn-outline-success"
+            for="{{ questionResult.question }}-{{ answer }}"
+            [innerHTML]="answer"
+          ></label>
+        </ng-container>
+      </div>
+    </div>
+    <div class="d-grid col-6 mx-auto mt-3">
+      <button
+        class="btn btn-primary"
+        id="submitAnswerBtn"
+        type="submit"
+        *ngIf="answersForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</ng-container>

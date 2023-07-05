@@ -1,0 +1,60 @@
+<h2>Results</h2>
+<ng-container *ngIf="questionsResult?.length > 0">
+  <div *ngFor="let questionResult of questionsResult">
+    <h3 [innerHTML]="questionResult.question"></h3>
+    <div class="answers-container">
+      <ng-container *ngFor="let answer of questionResult.all_answers">
+        <button
+          [innerHTML]="answer"
+          type="button"
+          class="btn"
+          [ngClass]="{
+            'btn-success':
+              (answer == questionResult.answered &&
+                answer == questionResult.correct_answer) ||
+              (answer != questionResult.answered &&
+                answer == questionResult.correct_answer),
+            'btn-danger':
+              answer == questionResult.answered &&
+              answer != questionResult.correct_answer
+          }"
+        ></button>
+        <!--
+          <input
+          type="radio"
+          class="btn-check"
+          name="{{ questionResult.question }}"
+          id="{{ questionResult.question }}-{{ answer }}"
+          value="{{ answer }}"
+          autocomplete="off"
+        />
+        <label
+          class="btn btn-outline-success"
+          for="{{ questionResult.question }}-{{ answer }}"
+          [innerHTML]="answer"
+        ></label>
+        -->
+      </ng-container>
+    </div>
+  </div>
+  <div
+    class="total-score d-grid col-6 mx-auto mt-3"
+    [ngClass]="{
+      red: totalScore == 0 || totalScore == 1,
+      yellow: totalScore == 2 || totalScore == 3,
+      green: totalScore == 4 || totalScore == 5
+    }"
+  >
+    You scored {{ totalScore }} out of 5
+  </div>
+</ng-container>
+<div class="d-grid gap-2">
+  <button
+    routerLink="/quiz"
+    class="btn btn-primary"
+    id="NewQuizBtn"
+    type="submit"
+  >
+    Create a new quiz
+  </button>
+</div>

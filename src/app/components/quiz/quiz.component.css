@@ -1,0 +1,17 @@
+.form-select,
+.btn.btn-outline-success {
+  border: 1px solid;
+}
+h2 {
+  text-align: center;
+  margin-top: 2rem;
+  
+}
+h3 {
+  margin-top: 2rem;
+  font-weight: bold;
+}
+.answers-container {
+  display: flex;
+  gap: 1rem;
+}
